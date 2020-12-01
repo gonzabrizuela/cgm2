@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,10 +61,10 @@ namespace SupplyChain
             {
                 string xSQL = string.Format("set dateformat dmy UPDATE Programa SET FECHA_PREVISTA_FABRICACION = '{0}', FECHA_INICIO_REAL_FABRICACION = '{1}', CANTFAB = {2}, FE_CIERRE = '{3}', " +
                                             "CG_ORDFORIG = {4}, CG_CELDA = '{5}', PROCESO = '{6}' WHERE Cg_ordf = {7}",
-                                          xItem.FECHA_PREVISTA_FABRICACION,
-                                          xItem.FECHA_INICIO_REAL_FABRICACION,
+                                          xItem.FECHA_PREVISTA_FABRICACION.ToString(),
+                                          xItem.FECHA_INICIO_REAL_FABRICACION.ToString(),
                                           xItem.CANTFAB.ToString().Replace(",", "."),
-                                          xItem.FE_CIERRE,
+                                          xItem.FE_CIERRE.ToString(),
                                           xItem.CG_ORDFORIG,
                                           xItem.CG_CELDA,
                                           xItem.PROCESO,
