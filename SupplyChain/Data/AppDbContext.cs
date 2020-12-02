@@ -14,6 +14,7 @@ namespace SupplyChain
         public virtual DbSet<ModeloGenericoStringString> ModelosGenericosStringString { get; set; }
         public virtual DbSet<Solution> Solution { get; set; }
         public virtual DbSet<PedCli> PedCli { get; set; }
+        public virtual DbSet<Operario> Operario { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         { }
     }
