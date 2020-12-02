@@ -33,7 +33,7 @@ else
     <SfToast ID="toast_default" @ref="ToastObj">
         <ToastPosition X="80%" Y="10%"></ToastPosition>
     </SfToast>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
         <thead>
             @*Fechas del calendario*@
             <tr class="CargaRowClass" style="height:30px">
@@ -148,6 +148,8 @@ else
                                 int xPedido = dbCarga.ElementAt(i).PEDIDO;
                                 string xCgProd = dbCarga.ElementAt(i).CG_PROD;
                                 decimal xCantidad = dbCarga.ElementAt(i).CANT;
+
+                                int Mayor = dbCarga.Where(t => t.CG_ORDFASOC == dbCarga.ElementAt(i).CG_ORDFASOC).OrderByDescending(t => t.CG_ORDF).FirstOrDefault().CG_ORDF;
                             }
                             <div class="CargaButtonClass">
                                 <input type="button"
@@ -157,11 +159,11 @@ else
                                 @{
                                     if (@dbCarga.ElementAt(i).DES_CLI == "")
                                     {
-                                        <span class="tooltiptext">@dbCarga.ElementAt(i).CG_PROD<br />@dbCarga.ElementAt(i).DES_PROD<br />CANTIDAD:@dbCarga.ElementAt(i).CANT.ToString().Substring(0, 1)<br />OF INICIAL:@dbCarga.ElementAt(i).CG_ORDFASOC<br />OF ALTA:</span>
+                                        <span class="tooltiptext">@dbCarga.ElementAt(i).CG_PROD<br />@dbCarga.ElementAt(i).DES_PROD<br />CANTIDAD:@dbCarga.ElementAt(i).CANT.ToString().Substring(0, 1)<br />OF INICIAL:@dbCarga.ElementAt(i).CG_ORDFASOC<br />OF ALTA: @Mayor</span>
                                     }
                                     else
                                     {
-                                        <span class="tooltiptext">@dbCarga.ElementAt(i).DES_CLI<br />PEDIDO:@dbCarga.ElementAt(i).PEDIDO<br />@dbCarga.ElementAt(i).CG_PROD<br />@dbCarga.ElementAt(i).DES_PROD<br />CANTIDAD:@dbCarga.ElementAt(i).CANT.ToString().Substring(0, 1)<br />OF INICIAL: @dbCarga.ElementAt(i).CG_ORDFASOC<br />OF ALTA:</span>
+                                        <span class="tooltiptext">@dbCarga.ElementAt(i).DES_CLI<br />PEDIDO:@dbCarga.ElementAt(i).PEDIDO<br />@dbCarga.ElementAt(i).CG_PROD<br />@dbCarga.ElementAt(i).DES_PROD<br />CANTIDAD:@dbCarga.ElementAt(i).CANT.ToString().Substring(0, 1)<br />OF INICIAL: @dbCarga.ElementAt(i).CG_ORDFASOC<br />OF ALTA: @Mayor</span>
                                     }
                                 }
                             </div>
@@ -283,7 +285,15 @@ else
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="padding-left:20px;padding-top:20px;padding-bottom:20px">
+                                                        <td style="padding-top:20px">
+                                                            <div>
+                                                                <span style="color:blue">Seleccione Operario:</span>
+                                                            </div>
+                                                            <SfDropDownList TValue="string" TItem="Operario" @bind-Value="@ordenFabricacion.DES_OPER" DataSource="@operarios">
+                                                                <DropDownListFieldSettings Value="DES_OPER" Text="DES_OPER"></DropDownListFieldSettings>
+                                                            </SfDropDownList>
+                                                        </td>
+                                                        <td style="padding-left: 20px; padding-top: 20px">
                                                             @if (ordenFabricacion.EXIGEOA == false)
                                                             {
                                                                 <div>
@@ -741,7 +751,7 @@ else
         </div>
     }
 }
-<label>@responseString</label>
+
 @code
 {
     protected List<ModeloCarga> dbCarga;
@@ -767,7 +777,8 @@ else
     protected List<ModeloGenericoStringString> dbProcesos;
     protected string Usuario = "USER";
     protected string responseString;
-    protected int color;
+    protected List<Operario> operarios = new List<Operario>();
+
     [Inject] protected Microsoft.JSInterop.IJSRuntime JS { get; set; }
     public async void exportdata()
     {
@@ -819,6 +830,7 @@ else
         dbEstadoCarga.Add(new ModeloGenericoIntString() { ID = 3, TEXTO = "EN CURSO" });
         dbEstadoCarga.Add(new ModeloGenericoIntString() { ID = 4, TEXTO = "CERRADA" });
         dbEstadoCarga.Add(new ModeloGenericoIntString() { ID = 5, TEXTO = "ANULADA" });
+        operarios = await Http.GetFromJsonAsync<List<Operario>>("api/Operario");
         await Refrescar();
     }
 
