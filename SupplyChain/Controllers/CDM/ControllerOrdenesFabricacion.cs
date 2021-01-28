@@ -55,7 +55,7 @@ namespace SupplyChain
             {
                 return BadRequest();
             }
-
+            //prueba
             try
             {
                 string xSQL = string.Format("set dateformat dmy UPDATE Programa SET FECHA_PREVISTA_FABRICACION = '{0}', FECHA_INICIO_REAL_FABRICACION = '{1}', CANTFAB = {2}, FE_CIERRE = '{3}', " +
