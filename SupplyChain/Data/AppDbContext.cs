@@ -23,5 +23,8 @@ namespace SupplyChain
         public DbSet<Programa> Programa { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         { }
+
+        //prueba de cambios
+
     }
 }
