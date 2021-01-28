@@ -16,6 +16,7 @@ namespace SupplyChain
         public virtual DbSet<Solution> Solution { get; set; }
         public virtual DbSet<Operario> Operario { get; set; }
         //prueba 2
+        //prueba 3
         //MODULO LOGÍSTICA
         public DbSet<PedCli> PedCli { get; set; }
         public DbSet<Pedidos> Pedidos { get; set; }
